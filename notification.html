@@ -45,6 +45,7 @@ div.ntf-status-error {
     width: 40px;
     height: 100%;
     float: left;
+    color: white;
 }
 
 div.ntf-status-info {
@@ -69,19 +70,20 @@ div.ntf-content-error {
     vertical-align: middle;
     padding-left: 10px;
     padding-right: 10px;
-    background-color: #F7FCFF;
+    background-color: white;
+    overflow: hidden;
 }
 
 div.ntf-content-info {
-    color: green;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 div.ntf-content-warn {
-    color: yellow;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 div.ntf-content-error {
-    color: red;
+    color: rgba(0, 0, 0, 0.6);
 }
 
 div.ntf-status-info div,
@@ -147,19 +149,37 @@ div.ntf-status-error div span {
     <script type="text/javascript">
     jQuery(document).ready(function($) {
 
+        var count = -1;
+
         $('#btnInfo, #btnWarn, #btnError').click(function(event) {
             /* Act on the event */
-            var t = $(this).attr('data-target');
-            $('.' + t).first().clone().appendTo('body').hide().css({
-                top: 300,
+            count++;
+
+            var $ntf = $('.' + $(this).attr('data-target'));
+
+            $ntf.first().clone().appendTo('body').hide().css({
+                top: (300 + count * ($ntf.height() + 3)),
                 left: 150
             }).fadeIn(400).animate({
-                top: 50
-            }, 500).delay(2000).animate({
+                top: (50 + count * ($ntf.height() + 3))
+            }, 500, function() {
+                $(this).hover(function() {
+                    $(this).stop(true);
+                }, function() {
+                    $(this).animate({
+                        left: -400,
+                        opacity: 'hide'
+                    }, 500, function() {
+                        $(this).remove();
+                        count--;
+                    });
+                });
+            }).delay(2000).animate({
                 left: -400,
                 opacity: 'hide'
             }, 500, function() {
                 $(this).remove();
+                count--;
             });
         });
     });
