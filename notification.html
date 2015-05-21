@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>jQuery Notification</title>
+    <script src="jquery-1.11.2.js"></script>
+</head>
+<style>
+div.ntf-container-info,
+div.ntf-container-warn,
+div.ntf-container-error {
+    width: 400px;
+    height: 60px;
+    background-color: #FFFFFF;
+    border-style: solid;
+    border-width: 1px;
+    position: fixed;
+}
+
+div.ntf-container-info {
+    border-color: green;
+    top: 100px;
+    left: 600px;
+}
+
+div.ntf-container-warn {
+    border-color: yellow;
+    top: 200px;
+    left: 600px;
+}
+
+div.ntf-container-error {
+    border-color: red;
+    top: 300px;
+    left: 600px;
+}
+
+div.ntf-status-info,
+div.ntf-status-warn,
+div.ntf-status-error {
+    display: inline-block;
+    width: 40px;
+    height: 100%;
+    float: left;
+}
+
+div.ntf-status-info {
+    background-color: green;
+}
+
+div.ntf-status-warn {
+    background-color: yellow;
+}
+
+div.ntf-status-error {
+    background-color: red;
+}
+
+div.ntf-content-info,
+div.ntf-content-warn,
+div.ntf-content-error {
+    display: inline-block;
+    width: 340px;
+    height: 100%;
+    float: left;
+    vertical-align: middle;
+    padding-left: 10px;
+    padding-right: 10px;
+    background-color: #F7FCFF;
+}
+
+div.ntf-content-info {
+    color: green;
+}
+
+div.ntf-content-warn {
+    color: yellow;
+}
+
+div.ntf-content-error {
+    color: red;
+}
+
+div.ntf-status-info div,
+div.ntf-status-warn div,
+div.ntf-status-error div,
+div.ntf-content-info div,
+div.ntf-content-warn div,
+div.ntf-content-error div {
+    display: table;
+    height: 100%;
+}
+
+div.ntf-status-info div span,
+div.ntf-status-warn div span,
+div.ntf-status-error div span,
+div.ntf-content-info div span,
+div.ntf-content-warn div span,
+div.ntf-content-error div span {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+div.ntf-status-info div span,
+div.ntf-status-warn div span,
+div.ntf-status-error div span {
+    text-align: center;
+    width: 40px;
+    font-size: 22px;
+    font-weight: bold;
+}
+</style>
+
+<body>
+    <div class="ntf-container-info">
+        <div class="ntf-status-info">
+            <div><span>√</span></div>
+        </div>
+        <div class="ntf-content-info">
+            <div><span>操作完成!</span></div>
+        </div>
+    </div>
+    <div class="ntf-container-warn">
+        <div class="ntf-status-warn">
+            <div><span>!</span></div>
+        </div>
+        <div class="ntf-content-warn">
+            <div><span>验证失败!</span></div>
+        </div>
+    </div>
+    <div class="ntf-container-error">
+        <div class="ntf-status-error">
+            <div><span>×</span></div>
+        </div>
+        <div class="ntf-content-error">
+            <div><span>系统错误!</span></div>
+        </div>
+    </div>
+    <div>
+        <button id="btnInfo" data-target="ntf-container-info">Info</button>
+        <button id="btnWarn" data-target="ntf-container-warn">Warn</button>
+        <button id="btnError" data-target="ntf-container-error">Error</button>
+    </div>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+
+        $('#btnInfo, #btnWarn, #btnError').click(function(event) {
+            /* Act on the event */
+            var t = $(this).attr('data-target');
+            $('.' + t).first().clone().appendTo('body').hide().css({
+                top: 300,
+                left: 150
+            }).fadeIn(400).animate({
+                top: 50
+            }, 500).delay(2000).animate({
+                left: -400,
+                opacity: 'hide'
+            }, 500, function() {
+                $(this).remove();
+            });
+        });
+    });
+    </script>
+</body>
+
+</html>
