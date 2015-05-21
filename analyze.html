@@ -1,30 +1,45 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>jQuery解刨分析</title>
+        <script src="jquery-1.11.2.js"></script>
+    </head>
+    <body>
+        <div id="myDiv" class="myDiv"></div>
+        <script>
+            var People = function(name) {
+                return new People.fn.init(name);
+            };
+            People.prototype = {
+                constructor: People,
+                length: 0,
+                splice: [].splice
+            };
+            People.fn = People.prototype;
+            People.fn.init = function(name){
+                this.length = 2;
+                this[0] = "P0";
+                this[1] = "P1";
+            };
+            People.fn.init.prototype = People.fn;
 
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>jQuery解刨分析</title>
-    <script src="jquery-1.11.2.js"></script>
-</head>
-
-<body>
-    <div id="myDiv" class="myDiv"></div>
-
-    <script>
-        jQuery(function($){
-            // var wid = $('#myDiv').width();
-            // console.log(wid);
-
-            var arr = [function(){}];
-            for(var i in arr){
-                console.log(i);
-                console.log(arr[i]);
-            }
-
-        });
-    </script>
-</body>
-
+            jQuery(function($) {
+                // var wid = $('#myDiv').width();
+                // console.log(wid);
+                var arr = [
+                    function() {}
+                ];
+                for (var i in arr) {
+                    console.log(i);
+                    console.log(arr[i]);
+                }
+                $('*').toArray();
+                var p = People('test');
+                console.dir(p);
+            });
+        </script>
+    </body>
 </html>
