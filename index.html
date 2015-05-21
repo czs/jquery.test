@@ -12,6 +12,33 @@
     <script src="js/custom.js"></script>
 </head>
 
+<style>
+    div.ntf-container{
+        width: 400px;
+        height: 60px;
+        background-color: #FFFFFF;
+        border-style: solid;
+        border-color: #8EB021;
+        border-width: 1px;
+        position: fixed;
+        top: 100px;
+        left: 200px;
+    }
+
+    div.ntf-status{
+        display: inline-block;
+        width: 40px;
+        height: 100%;
+        background-color: #8EB021;
+    }
+
+    div.ntf-content{
+        display: inline-block;
+        width: 360px;
+        height: 100%;
+    }
+</style>
+
 <body>
     <!-- markup -->
     <div class="hilight { background: 'red', foreground: 'white' }">
@@ -22,6 +49,10 @@
     </div>
     <div class="hilight { background: 'green' }">
         Have a nice day!
+    </div>
+
+    <div class="ntf-container">
+        <div class="ntf-status"></div><div class="ntf-content">操作完成!</div>
     </div>
 </body>
 
