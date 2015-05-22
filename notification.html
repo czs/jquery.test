@@ -9,6 +9,14 @@
     <script src="jquery-1.11.2.js"></script>
     <script src="js/jquery.notification.js"></script>
 </head>
+<style>
+div.test {
+    position: fixed;
+    top: 50px;
+    text-align: center;
+    width: 100%;
+}
+</style>
 
 <body>
     <div class="ntf-container ntf-container-info">
@@ -35,14 +43,20 @@
             <div><span>系统错误!</span></div>
         </div>
     </div>
-    <div>
-    <input id="typeLeft" name="position" type="radio" value="left" checked="checked"><label for="typeLeft">Left</label>
-    <input id="typeRight" name="position" type="radio" value="right"><label for="typeRight">Right</label>
-    </div>
-    <div>
-        <button id="btnInfo" data-type="info">Info</button>
-        <button id="btnWarn" data-type="warn">Warn</button>
-        <button id="btnError" data-type="error">Error</button>
+    <div class="test">
+        <div>
+            <div>
+                <input id="typeLeft" name="position" type="radio" value="left" checked="checked">
+                <label for="typeLeft">Left</label>
+                <input id="typeRight" name="position" type="radio" value="right">
+                <label for="typeRight">Right</label>
+            </div>
+            <div>
+                <button id="btnInfo" data-type="info">Info</button>
+                <button id="btnWarn" data-type="warn">Warn</button>
+                <button id="btnError" data-type="error">Error</button>
+            </div>
+        </div>
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
@@ -57,15 +71,15 @@
                 position: $(':radio[name="position"]:checked').val()
             };
 
-            if(type == 'info'){
+            if (type == 'info') {
                 $.ntf.info('操作完成!', settings);
-            }else if(type == 'warn', settings){
+            } else if (type == 'warn', settings) {
                 $.ntf.warn('验证失败!', settings);
-            }else if(type == 'error'){
+            } else if (type == 'error') {
                 $.ntf.error('系统错误!', settings);
             }
 
-            
+
         });
     });
     </script>

@@ -16,6 +16,52 @@
     var ntfHei = 60;
     var ntfWid = 400;
 
+    var q = [];
+
+    function action($obj, cnt) {
+
+        var opts = $obj.data('opts');
+        var hidePos = opts.hidePos;
+
+        $obj.animate({
+            top: (opts.stopTop + cnt * (ntfHei + 3))
+        }, 500, function() {
+            // when reach the top, add mouse hover over&out event listeners
+            if ($obj.position().top == opts.stopTop) {
+
+                $obj.delay(2000).animate(hidePos, 500, function() {
+                    // remove current form queue array
+                    q = $.grep(q, function($item, index) {
+                        return $item != $obj;
+                    });
+                    $obj.remove();
+                    count--;
+
+                    // do same action for all others in queue array
+                    $.each(q, function(index, $item) {
+                        action($item, index);
+                    });
+                });
+
+                $obj.hover(function() {
+                    $obj.stop(true);
+                }, function() {
+                    $obj.animate(hidePos, 500, function() {
+                        q = $.grep(q, function($item, index) {
+                            return $item != $obj;
+                        });
+                        $obj.remove();
+                        count--;
+
+                        $.each(q, function(index, $item) {
+                            action($item, index);
+                        });
+                    });
+                });
+            }
+        });
+    }
+
     function show($obj, msg, settings) {
 
         // calculate animate css prop value.
@@ -31,6 +77,7 @@
             };
             hidePos = {
                 left: -ntfWid,
+                right: 'auto',
                 opacity: 'hide'
             };
         } else if (opts.position == 'right') {
@@ -39,29 +86,25 @@
                 right: opts.offset,
                 left: 'auto'
             };
-             hidePos = {
+            hidePos = {
                 right: -ntfWid,
+                left: 'auto',
                 opacity: 'hide'
             };
         }
 
+        $.extend(opts, {
+            initPos: initPos,
+            hidePos: hidePos
+        });
+
+
+        var $ntf = $obj.clone().find('.ntf-content div span').text(msg).end().appendTo('body').hide().css(initPos).fadeIn(400).data('opts', opts);
+        q.push($ntf);
         count++;
 
-        $obj.clone().find('.ntf-content div span').text(msg).end().appendTo('body').hide().css(initPos).fadeIn(400).animate({
-            top: (opts.stopTop + count * (ntfHei + 3))
-        }, 500, function() {
-            $(this).hover(function() {
-                $(this).stop(true);
-            }, function() {
-                $(this).animate(hidePos, 500, function() {
-                    $(this).remove();
-                    count--;
-                });
-            });
-        }).delay(2000).animate(hidePos, 500, function() {
-            $(this).remove();
-            count--;
-        });
+        // do animate action
+        action($ntf, count);
 
     }
 
