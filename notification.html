@@ -7,144 +7,42 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>jQuery Notification</title>
     <script src="jquery-1.11.2.js"></script>
+    <script src="js/jquery.notification.js"></script>
 </head>
-<style>
-div.ntf-container-info,
-div.ntf-container-warn,
-div.ntf-container-error {
-    width: 400px;
-    height: 60px;
-    background-color: #FFFFFF;
-    border-style: solid;
-    border-width: 1px;
-    position: fixed;
-}
-
-div.ntf-container-info {
-    border-color: green;
-    top: 100px;
-    left: 600px;
-}
-
-div.ntf-container-warn {
-    border-color: yellow;
-    top: 200px;
-    left: 600px;
-}
-
-div.ntf-container-error {
-    border-color: red;
-    top: 300px;
-    left: 600px;
-}
-
-div.ntf-status-info,
-div.ntf-status-warn,
-div.ntf-status-error {
-    display: inline-block;
-    width: 40px;
-    height: 100%;
-    float: left;
-    color: white;
-}
-
-div.ntf-status-info {
-    background-color: green;
-}
-
-div.ntf-status-warn {
-    background-color: yellow;
-}
-
-div.ntf-status-error {
-    background-color: red;
-}
-
-div.ntf-content-info,
-div.ntf-content-warn,
-div.ntf-content-error {
-    display: inline-block;
-    width: 340px;
-    height: 100%;
-    float: left;
-    vertical-align: middle;
-    padding-left: 10px;
-    padding-right: 10px;
-    background-color: white;
-    overflow: hidden;
-}
-
-div.ntf-content-info {
-    color: rgba(0, 0, 0, 0.6);
-}
-
-div.ntf-content-warn {
-    color: rgba(0, 0, 0, 0.6);
-}
-
-div.ntf-content-error {
-    color: rgba(0, 0, 0, 0.6);
-}
-
-div.ntf-status-info div,
-div.ntf-status-warn div,
-div.ntf-status-error div,
-div.ntf-content-info div,
-div.ntf-content-warn div,
-div.ntf-content-error div {
-    display: table;
-    height: 100%;
-}
-
-div.ntf-status-info div span,
-div.ntf-status-warn div span,
-div.ntf-status-error div span,
-div.ntf-content-info div span,
-div.ntf-content-warn div span,
-div.ntf-content-error div span {
-    display: table-cell;
-    vertical-align: middle;
-}
-
-div.ntf-status-info div span,
-div.ntf-status-warn div span,
-div.ntf-status-error div span {
-    text-align: center;
-    width: 40px;
-    font-size: 22px;
-    font-weight: bold;
-}
-</style>
 
 <body>
-    <div class="ntf-container-info">
-        <div class="ntf-status-info">
+    <div class="ntf-container ntf-container-info">
+        <div class="ntf-status ntf-status-info">
             <div><span>√</span></div>
         </div>
-        <div class="ntf-content-info">
+        <div class="ntf-content ntf-content-info">
             <div><span>操作完成!</span></div>
         </div>
     </div>
-    <div class="ntf-container-warn">
-        <div class="ntf-status-warn">
+    <div class="ntf-container ntf-container-warn">
+        <div class="ntf-status ntf-status-warn">
             <div><span>!</span></div>
         </div>
-        <div class="ntf-content-warn">
+        <div class="ntf-content ntf-content-warn">
             <div><span>验证失败!</span></div>
         </div>
     </div>
-    <div class="ntf-container-error">
-        <div class="ntf-status-error">
+    <div class="ntf-container ntf-container-error">
+        <div class="ntf-status ntf-status-error">
             <div><span>×</span></div>
         </div>
-        <div class="ntf-content-error">
+        <div class="ntf-content ntf-content-error">
             <div><span>系统错误!</span></div>
         </div>
     </div>
     <div>
-        <button id="btnInfo" data-target="ntf-container-info">Info</button>
-        <button id="btnWarn" data-target="ntf-container-warn">Warn</button>
-        <button id="btnError" data-target="ntf-container-error">Error</button>
+    <input id="typeLeft" name="position" type="radio" value="left" checked="checked"><label for="typeLeft">Left</label>
+    <input id="typeRight" name="position" type="radio" value="right"><label for="typeRight">Right</label>
+    </div>
+    <div>
+        <button id="btnInfo" data-type="info">Info</button>
+        <button id="btnWarn" data-type="warn">Warn</button>
+        <button id="btnError" data-type="error">Error</button>
     </div>
     <script type="text/javascript">
     jQuery(document).ready(function($) {
@@ -153,34 +51,21 @@ div.ntf-status-error div span {
 
         $('#btnInfo, #btnWarn, #btnError').click(function(event) {
             /* Act on the event */
-            count++;
+            var type = $(this).attr('data-type');
 
-            var $ntf = $('.' + $(this).attr('data-target'));
+            var settings = {
+                position: $(':radio[name="position"]:checked').val()
+            };
 
-            $ntf.first().clone().appendTo('body').hide().css({
-                top: (300 + count * ($ntf.height() + 3)),
-                left: 150
-            }).fadeIn(400).animate({
-                top: (50 + count * ($ntf.height() + 3))
-            }, 500, function() {
-                $(this).hover(function() {
-                    $(this).stop(true);
-                }, function() {
-                    $(this).animate({
-                        left: -400,
-                        opacity: 'hide'
-                    }, 500, function() {
-                        $(this).remove();
-                        count--;
-                    });
-                });
-            }).delay(2000).animate({
-                left: -400,
-                opacity: 'hide'
-            }, 500, function() {
-                $(this).remove();
-                count--;
-            });
+            if(type == 'info'){
+                $.ntf.info('操作完成!', settings);
+            }else if(type == 'warn', settings){
+                $.ntf.warn('验证失败!', settings);
+            }else if(type == 'error'){
+                $.ntf.error('系统错误!', settings);
+            }
+
+            
         });
     });
     </script>
