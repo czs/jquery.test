@@ -1,8 +1,20 @@
 /**
  * jquery notification plugin.
- * @author: weicheng xi
+ * @author: weicheng.xi@emc.com
  * @date: 2015/05/22
- *
+ * How to use:
+ $.ntf.info | $.ntf.warn | $.ntf.error
+ $.ntf.info('message');
+ $.ntf.info('message', {
+                position: 'left', // left, right
+                initTop: 300,// init top offset base of the notification box's show
+                offset: 100,// offset of the left or right window border
+                stopTop: 50,// animate stop top offset
+                callback: function(params) {
+                    $.ntf.info('callback handle!' + params[0]);
+                },
+                params: [1, '11']
+            });
  **/
 (function($) {
 
@@ -36,6 +48,7 @@
                     });
                     $obj.remove();
                     count--;
+                    opts.callback(opts.params);
 
                     // do same action for all others in queue array
                     $.each(q, function(index, $item) {
@@ -52,6 +65,7 @@
                         });
                         $obj.remove();
                         count--;
+                        opts.callback(opts.params);
 
                         $.each(q, function(index, $item) {
                             action($item, index);
@@ -111,10 +125,12 @@
     $.extend({
         ntf: {
             settings: {
-                position: 'left', // left, right
-                initTop: 300,
-                offset: 100,
-                stopTop: 50
+                position: 'right', // left, right
+                initTop: 300,// init top offset base of the notification box's show
+                offset: 100,// offset of the left or right window border
+                stopTop: 50,// animate stop top offset
+                callback: $.noop,// callback function invoke when notification box disappear
+                params: []//params for the callback funciton
             },
             info: function(msg, settings) {
                 show($ntfInfo, msg, settings);

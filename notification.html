@@ -24,7 +24,7 @@ div.test {
             <div><span>√</span></div>
         </div>
         <div class="ntf-content ntf-content-info">
-            <div><span>操作完成!</span></div>
+            <div><span>Operation success!</span></div>
         </div>
     </div>
     <div class="ntf-container ntf-container-warn">
@@ -32,7 +32,7 @@ div.test {
             <div><span>!</span></div>
         </div>
         <div class="ntf-content ntf-content-warn">
-            <div><span>验证失败!</span></div>
+            <div><span>You need to input the params!</span></div>
         </div>
     </div>
     <div class="ntf-container ntf-container-error">
@@ -40,7 +40,7 @@ div.test {
             <div><span>×</span></div>
         </div>
         <div class="ntf-content ntf-content-error">
-            <div><span>系统错误!</span></div>
+            <div><span>System error!</span></div>
         </div>
     </div>
     <div class="test">
@@ -68,12 +68,16 @@ div.test {
             var type = $(this).attr('data-type');
 
             var settings = {
-                position: $(':radio[name="position"]:checked').val()
+                position: $(':radio[name="position"]:checked').val(),
+                callback: function(params) {
+                    $.ntf.info('消息提示回调函数处理!' + params);
+                },
+                params: 1000000
             };
 
             if (type == 'info') {
                 $.ntf.info('操作完成!', settings);
-            } else if (type == 'warn', settings) {
+            } else if (type == 'warn') {
                 $.ntf.warn('验证失败!', settings);
             } else if (type == 'error') {
                 $.ntf.error('系统错误!', settings);
