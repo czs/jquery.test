@@ -23,7 +23,17 @@
     <div class="hilight { background: 'green' }">
         Have a nice day!
     </div>
-
+    <div class="submitA">
+        <a id="testA" href="http://www.baidu.com"><span>http://www.baidu.com</span></a>
+        <button id="btn">Test a:href</button>
+    </div>
+    <script type="text/javascript">
+    jQuery(document).ready(function($) {
+        $('#btn').click(function(event) {
+            $('#testA').attr('href', 'https://www.baidu.com/s?wd=L430').find('span').trigger('click');
+        });
+    });
+    </script>
 </body>
 
 </html>
